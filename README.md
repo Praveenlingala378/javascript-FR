@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🧠 JavaScript Face Recognition Project
 
 A comprehensive face recognition application with both web interface and REST API, built using face-api.js and Node.js.
@@ -179,3 +180,6 @@ If you have any questions or issues:
 ---
 
 **⭐ Star this repository if you found it helpful!**
+=======
+# javascript-FR
+>>>>>>> a3faf0b8e2a504363ba2af46217552b183c7e895
