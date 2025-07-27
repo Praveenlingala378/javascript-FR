@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Missing Model Files</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .file-item {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .file-name {
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+        .download-link {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .download-link:hover {
+            background: #0056b3;
+        }
+        .instructions {
+            background: #e7f3ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .missing {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .present {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📥 Download Missing Model Files</h1>
+        
+        <div class="instructions">
+            <h3>📋 Instructions:</h3>
+            <ol>
+                <li>Click the download links below</li>
+                <li>Save each file to your <code>models</code> folder: <code>d:\praveen\javascriptFR\models\</code></li>
+                <li>Make sure the file names match exactly</li>
+                <li>Refresh your main application page</li>
+            </ol>
+        </div>
+
+        <h2>🔍 Current Status:</h2>
+        <div id="status-container">
+            <div class="status missing">❌ face_recognition_model-shard2 - MISSING</div>
+            <div class="status missing">❌ face_expression_model-shard1 - MISSING</div>
+            <div class="status missing">❌ face_expression_model-weights_manifest.json - MISSING</div>
+        </div>
+
+        <h2>📁 Files to Download:</h2>
+        
+        <div class="file-item">
+            <div class="file-name">face_recognition_model-shard2</div>
+            <div>Required for: Face recognition and face descriptors</div>
+            <div>Size: ~6.2 MB</div>
+            <a href="https://github.com/justadudewhohacks/face-api.js-models/raw/master/face_recognition/face_recognition_model-shard2" 
+               class="download-link" download="face_recognition_model-shard2">
+               📥 Download face_recognition_model-shard2
+            </a>
+        </div>
+
+        <div class="file-item">
+            <div class="file-name">face_expression_model-shard1</div>
+            <div>Required for: Facial expression detection (happy, sad, angry, etc.)</div>
+            <div>Size: ~310 KB</div>
+            <a href="https://github.com/justadudewhohacks/face-api.js-models/raw/master/face_expression/face_expression_model-shard1" 
+               class="download-link" download="face_expression_model-shard1">
+               📥 Download face_expression_model-shard1
+            </a>
+        </div>
+
+        <div class="file-item">
+            <div class="file-name">face_expression_model-weights_manifest.json</div>
+            <div>Required for: Face expression model configuration</div>
+            <div>Size: ~1 KB</div>
+            <a href="https://github.com/justadudewhohacks/face-api.js-models/raw/master/face_expression/face_expression_model-weights_manifest.json" 
+               class="download-link" download="face_expression_model-weights_manifest.json">
+               📥 Download face_expression_model-weights_manifest.json
+            </a>
+        </div>
+
+        <div class="instructions">
+            <h3>🎯 What You'll Get After Downloading:</h3>
+            <ul>
+                <li><strong>Face Recognition:</strong> Ability to compute face descriptors and recognize specific people</li>
+                <li><strong>Expression Detection:</strong> Real-time detection of emotions (happy, sad, angry, surprised, etc.)</li>
+                <li><strong>Complete Functionality:</strong> All features of the face detection app will work</li>
+            </ul>
+        </div>
+
+        <div class="instructions">
+            <h3>🔧 Alternative: Command Line Download</h3>
+            <p>If you prefer using the command line:</p>
+            <pre style="background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto;">
+cd "d:\praveen\javascriptFR\models"
+curl -L -o face_recognition_model-shard2 https://github.com/justadudewhohacks/face-api.js-models/raw/master/face_recognition/face_recognition_model-shard2
+curl -L -o face_expression_model-shard1 https://github.com/justadudewhohacks/face-api.js-models/raw/master/face_expression/face_expression_model-shard1
+curl -L -o face_expression_model-weights_manifest.json https://github.com/justadudewhohacks/face-api.js-models/raw/master/face_expression/face_expression_model-weights_manifest.json
+            </pre>
+        </div>
+    </div>
+</body>
+</html>

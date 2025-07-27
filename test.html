@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face API CDN Test</title>
+</head>
+<body>
+    <h1>Testing Face API CDN</h1>
+    <div id="status">Loading...</div>
+
+    <!-- Test different CDN sources -->
+    <script>
+        console.log('Testing CDN loading...');
+        
+        // Test 1: Try unpkg
+        const script1 = document.createElement('script');
+        script1.src = 'https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js';
+        script1.onload = () => {
+            console.log('✅ unpkg CDN loaded successfully');
+            document.getElementById('status').innerHTML = '✅ unpkg CDN works! faceapi type: ' + typeof faceapi;
+        };
+        script1.onerror = () => {
+            console.log('❌ unpkg CDN failed');
+            // Try jsdelivr
+            const script2 = document.createElement('script');
+            script2.src = 'https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js';
+            script2.onload = () => {
+                console.log('✅ jsdelivr CDN loaded successfully');
+                document.getElementById('status').innerHTML = '✅ jsdelivr CDN works! faceapi type: ' + typeof faceapi;
+            };
+            script2.onerror = () => {
+                console.log('❌ jsdelivr CDN failed');
+                document.getElementById('status').innerHTML = '❌ Both CDNs failed. Check internet connection.';
+            };
+            document.head.appendChild(script2);
+        };
+        document.head.appendChild(script1);
+    </script>
+</body>
+</html>

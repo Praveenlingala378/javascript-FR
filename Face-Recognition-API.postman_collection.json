@@ -1,0 +1,183 @@
+{
+	"info": {
+		"_postman_id": "face-recognition-api",
+		"name": "Face Recognition API",
+		"description": "Complete Face Recognition API using face-api.js",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/health",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"health"
+					]
+				},
+				"description": "Check if the API is running and models are loaded"
+			}
+		},
+		{
+			"name": "2. Detect Faces",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": [],
+							"description": "Upload an image file to detect faces"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/detect",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"detect"
+					]
+				},
+				"description": "Detect faces in an image with landmarks and expressions"
+			}
+		},
+		{
+			"name": "3. Train Face",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": [],
+							"description": "Upload an image with a clear face"
+						},
+						{
+							"key": "name",
+							"value": "John",
+							"type": "text",
+							"description": "Name of the person"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/train",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"train"
+					]
+				},
+				"description": "Register/train a face with a name"
+			}
+		},
+		{
+			"name": "4. Recognize Faces",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": [],
+							"description": "Upload an image to recognize faces"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/recognize",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"recognize"
+					]
+				},
+				"description": "Recognize trained faces in an image"
+			}
+		},
+		{
+			"name": "5. Get All Registered Faces",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/faces",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"faces"
+					]
+				},
+				"description": "Get list of all registered faces"
+			}
+		},
+		{
+			"name": "6. Delete Specific Face",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/faces/John",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"faces",
+						"John"
+					]
+				},
+				"description": "Remove a specific person from recognition (replace 'John' with actual name)"
+			}
+		},
+		{
+			"name": "7. Clear All Faces",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/faces",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"faces"
+					]
+				},
+				"description": "Clear all registered faces"
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3001",
+			"type": "string"
+		}
+	]
+}

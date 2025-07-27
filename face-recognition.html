@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Recognition App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        #video {
+            border: 2px solid #333;
+            border-radius: 10px;
+            display: block;
+            margin: 20px auto;
+        }
+        canvas {
+            position: absolute;
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+        }
+        .status {
+            text-align: center;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .controls {
+            text-align: center;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+        }
+        .control-group {
+            margin: 15px 0;
+        }
+        input[type="text"] {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+            font-size: 14px;
+            width: 200px;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        .instructions {
+            background: #e7f3ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🧠 Face Recognition App</h1>
+    <video id="video" width="720" height="560" autoplay muted></video>
+    
+    <div class="controls">
+        <h3>🎯 Face Recognition Controls</h3>
+        
+        <div class="control-group">
+            <input type="text" id="personName" placeholder="Enter person's name" maxlength="20">
+            <button class="btn-primary" onclick="trainPerson()">📚 Train Face</button>
+        </div>
+        
+        <div class="control-group">
+            <button class="btn-warning" onclick="stopTraining()">⏹️ Stop Training</button>
+            <button class="btn-danger" onclick="clearAllFaces()">🗑️ Clear All Faces</button>
+        </div>
+        
+        <div class="instructions">
+            <h4>📋 How to Use:</h4>
+            <ol>
+                <li><strong>Train a Face:</strong> Enter a name and click "Train Face"</li>
+                <li><strong>Look at Camera:</strong> Face the camera for 3 seconds during training</li>
+                <li><strong>Recognition:</strong> The system will automatically recognize trained faces</li>
+                <li><strong>Multiple People:</strong> Train different people by repeating steps 1-2</li>
+            </ol>
+            
+            <h4>🎨 What You'll See:</h4>
+            <ul>
+                <li><span style="color: #00ff00;">Green labels</span> = Recognized person with confidence %</li>
+                <li><span style="color: #ff0000;">Red "Unknown"</span> = Unrecognized face</li>
+                <li>Facial landmarks and expression detection continue working</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Load face-api.js with fallback -->
+    <script>
+        console.log('Starting face-api.js loading...');
+        
+        // Create script element for face-api.js
+        const faceApiScript = document.createElement('script');
+        faceApiScript.src = 'https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js';
+        
+        faceApiScript.onload = () => {
+            console.log('✅ face-api.js loaded successfully from unpkg');
+            // Load our script after face-api.js is loaded
+            const ourScript = document.createElement('script');
+            ourScript.src = 'script.js';
+            document.head.appendChild(ourScript);
+        };
+        
+        faceApiScript.onerror = () => {
+            console.log('❌ unpkg failed, trying jsdelivr...');
+            // Try alternative CDN
+            const fallbackScript = document.createElement('script');
+            fallbackScript.src = 'https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js';
+            
+            fallbackScript.onload = () => {
+                console.log('✅ face-api.js loaded successfully from jsdelivr');
+                // Load our script after face-api.js is loaded
+                const ourScript = document.createElement('script');
+                ourScript.src = 'script.js';
+                document.head.appendChild(ourScript);
+            };
+            
+            fallbackScript.onerror = () => {
+                console.error('❌ Both CDNs failed to load face-api.js');
+                document.body.innerHTML += '<div style="color: red; text-align: center; padding: 20px;">❌ Failed to load face-api.js library. Please check your internet connection and try again.</div>';
+            };
+            
+            document.head.appendChild(fallbackScript);
+        };
+        
+        document.head.appendChild(faceApiScript);
+        
+        // Helper function for the train button
+        function trainPerson() {
+            const nameInput = document.getElementById('personName');
+            const name = nameInput.value.trim();
+            
+            if (!name) {
+                alert('Please enter a person\'s name!');
+                return;
+            }
+            
+            // Call the training function from script.js
+            if (typeof startTraining === 'function') {
+                startTraining(name);
+                nameInput.value = ''; // Clear input
+            } else {
+                alert('Face recognition system not ready yet. Please wait...');
+            }
+        }
+    </script>
+</body>
+
+</html>

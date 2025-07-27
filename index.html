@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face API Test</title>
+    <!-- <link rel="icon" href="favicon.ico" /> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        #video {
+            border: 2px solid #333;
+            border-radius: 10px;
+            display: block;
+            margin: 20px auto;
+        }
+        canvas {
+            position: absolute;
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+        }
+        .status {
+            text-align: center;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Face API Test</h1>
+    <video id="video" width="720" height="560" autoplay muted></video>
+
+    <!-- Load face-api.js with fallback -->
+    <script>
+        console.log('Starting face-api.js loading...');
+        
+        // Create script element for face-api.js
+        const faceApiScript = document.createElement('script');
+        faceApiScript.src = 'https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js';
+        
+        faceApiScript.onload = () => {
+            console.log('✅ face-api.js loaded successfully from unpkg');
+            // Load our script after face-api.js is loaded
+            const ourScript = document.createElement('script');
+            ourScript.src = 'script.js';
+            document.head.appendChild(ourScript);
+        };
+        
+        faceApiScript.onerror = () => {
+            console.log('❌ unpkg failed, trying jsdelivr...');
+            // Try alternative CDN
+            const fallbackScript = document.createElement('script');
+            fallbackScript.src = 'https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js';
+            
+            fallbackScript.onload = () => {
+                console.log('✅ face-api.js loaded successfully from jsdelivr');
+                // Load our script after face-api.js is loaded
+                const ourScript = document.createElement('script');
+                ourScript.src = 'script.js';
+                document.head.appendChild(ourScript);
+            };
+            
+            fallbackScript.onerror = () => {
+                console.error('❌ Both CDNs failed to load face-api.js');
+                document.body.innerHTML += '<div style="color: red; text-align: center; padding: 20px;">❌ Failed to load face-api.js library. Please check your internet connection and try again.</div>';
+            };
+            
+            document.head.appendChild(fallbackScript);
+        };
+        
+        document.head.appendChild(faceApiScript);
+    </script>
+</body>
+
+</html>
